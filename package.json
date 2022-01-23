@@ -1,0 +1,19 @@
+{
+  "name": "secca",
+  "version": "1.0.0",
+  "description": "An algorithm for connecting squares / borders in a Grid",
+  "main": "index.js",
+  "scripts": {
+    "test": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArctanStudios/Sector-Connection-Algorithm.git"
+  },
+  "author": "SirCode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArctanStudios/Sector-Connection-Algorithm/issues"
+  },
+  "homepage": "https://github.com/ArctanStudios/Sector-Connection-Algorithm#readme"
+}
