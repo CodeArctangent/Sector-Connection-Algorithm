@@ -18,7 +18,7 @@
   "homepage": "https://github.com/ArctanStudios/Arctan-Liphorm#readme",
   "dependencies": {
     "alea": "^1.0.1",
-    "arctan.meridian": "^1.0.0",
+    "arctan.meridian": "^1.0.1",
     "electron": "^15.3.1",
     "electron-log": "^4.4.1",
     "url-polyfill": "^1.1.12"
