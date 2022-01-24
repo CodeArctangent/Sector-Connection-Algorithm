@@ -1,19 +1,26 @@
 {
-  "name": "secca",
+  "name": "arctan-liphorm",
   "version": "1.0.0",
-  "description": "An algorithm for connecting squares / borders in a Grid",
+  "description": "basic life artificial intelligence",
   "main": "index.js",
   "scripts": {
-    "test": "electron ."
+    "start": "electron --enable-transparent-visuals ."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArctanStudios/Sector-Connection-Algorithm.git"
+    "url": "git+https://github.com/ArctanStudios/Arctan-Liphorm.git"
   },
-  "author": "SirCode",
-  "license": "ISC",
+  "author": "MisterSirCode",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ArctanStudios/Sector-Connection-Algorithm/issues"
+    "url": "https://github.com/ArctanStudios/Arctan-Liphorm/issues"
   },
-  "homepage": "https://github.com/ArctanStudios/Sector-Connection-Algorithm#readme"
+  "homepage": "https://github.com/ArctanStudios/Arctan-Liphorm#readme",
+  "dependencies": {
+    "alea": "^1.0.1",
+    "arctan.meridian": "^1.0.0",
+    "electron": "^15.3.1",
+    "electron-log": "^4.4.1",
+    "url-polyfill": "^1.1.12"
+  }
 }
