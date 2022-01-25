@@ -13,27 +13,28 @@ class Secca {
                     w:  false,
                     nw: false
                 };
-                if (callback(strct[y][x])) {
-                    if (callback(strct[y - 1][x]))
+                if (callback(strct, y, x)) {
+                    if (callback(strct, y - 1, x))
                         part.n = true;
-                    if (callback(strct[y - 1][x + 1]))
+                    if (callback(strct, y - 1, x + 1))
                         part.ne = true;
-                    if (callback(strct[y][x + 1]))
+                    if (callback(strct, y, x + 1))
                         part.e = true;
-                    if (callback(strct[y + 1][x + 1]))
+                    if (callback(strct, y + 1, x + 1))
                         part.se = true;
-                    if (callback(strct[y + 1][x]))
+                    if (callback(strct, y + 1, x))
                         part.s = true;
-                    if (callback(strct[y + 1][x - 1]))
+                    if (callback(strct, y + 1, x - 1))
                         part.sw = true;
-                    if (callback(strct[y][x - 1]))
+                    if (callback(strct, y, x - 1))
                         part.w = true;
-                    if (callback(strct[y - 1][x - 1]))
-                        part.w = true;
+                    if (callback(strct, y - 1, x - 1))
+                        part.nw = true;
                     parts[`${x}_${y}`] = part;
                 }
             }
         }
+        return parts;
     }
 }
 

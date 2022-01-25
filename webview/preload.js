@@ -18,8 +18,11 @@ window.addEventListener('DOMContentLoaded', () => {
     canvas.width = config.simulation.width;
     canvas.height = config.simulation.height;
     img = ctx.createImageData(canvas.width, canvas.height);
-    drawGrid();
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    margin = canvas.width / cellCount / 10;
     drawStructure();
+    drawGrid();
 });
 
 const dir = (n) => Math.round(n) >= 0 ? 1 : -1;
@@ -49,18 +52,16 @@ function makeButtonsUsable() {
 }
 
 let cellCount = 10;
-let margin = 3;
+let margin = 5;
 
 function drawGrid() {
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
     let gx = canvas.width / cellCount;
     let gy = canvas.height / cellCount;
     for (let y = 0; y < cellCount; ++y) {
         for (let x = 0; x < cellCount; ++x) {
             ctx.fillStyle = 'white';
-            ctx.fillRect(gx * (x + 1), gy * y, 1, gy);
-            ctx.fillRect(gx * x, gy * (y + 1), gx, 1);
+            ctx.fillRect(gx * (x + 1) - 0.5, gy * y - 0.5, 1, gy);
+            ctx.fillRect(gx * x - 0.5, gy * (y + 1) - 0.5, gx, 1);
         }
     }
 }
@@ -73,20 +74,94 @@ let originStructure = [
 ];
 let position = [3, 3];
 
+function valueChecker(val, y, x) {
+    if (val[y])
+        if (val[y][x])
+            if (val[y][x] == 1) return true;
+            else return false;
+        else return false;
+    else return false;
+}
+
 function drawStructure() {
     let gx = canvas.width / cellCount;
+    let gxh = gx / 2;
     let gy = canvas.height / cellCount;
+    let gyh = gy / 2;
     let width = originStructure[0].length;
     let height = originStructure.length;
-    let objects = Secca.loadArray(originStructure, (val) => val == 1 ? true : false);
+    let objects = Secca.loadArray(originStructure, valueChecker);
+    console.log(objects);
     for (let y = 0; y < height; ++y) {
         for (let x = 0; x < width; ++x) {
             if (originStructure[y][x] == 1) {
-                ctx.fillRect(gx * (x + position[0]) + margin, gy * (y + position[1]) + margin, gx - margin * 2, gy - margin * 2);
+                let curObject = objects[`${x}_${y}`];
+                ctx.fillStyle = 'white';
+                let blockPos = [gx * (x + position[0]), gy * (y + position[1])];
+                ctx.fillRect(blockPos[0], blockPos[1], gx, gy);
+                ctx.fillStyle = 'rgb(255, 0, 0)';
+                if (!curObject.n && curObject.e && curObject.w)
+                    ctx.fillRect(blockPos[0], blockPos[1], gx, margin);
+                if (!curObject.e && curObject.n && curObject.s)
+                    ctx.fillRect(blockPos[0] + gx - margin, blockPos[1], margin, gy);
+                if (!curObject.s && curObject.e && curObject.w)
+                    ctx.fillRect(blockPos[0], blockPos[1] + gy - margin, gx, margin);
+                if (!curObject.w && curObject.n && curObject.s)
+                    ctx.fillRect(blockPos[0], blockPos[1], margin, gy);
+                if (margin < gxh) {
+                    if (!curObject.n)
+                        if (!curObject.e && curObject.w)
+                            ctx.fillRect(blockPos[0], blockPos[1], gx - margin, margin);
+                        else if (!curObject.e && !curObject.w)
+                            ctx.fillRect(blockPos[0] + margin, blockPos[1], gx - margin * 2, margin);
+                        else if (curObject.e && !curObject.w)
+                            ctx.fillRect(blockPos[0] + margin, blockPos[1], gx - margin, margin);
+                    if (!curObject.e)
+                        if (!curObject.n && curObject.s)
+                            ctx.fillRect(blockPos[0] + gx - margin, blockPos[1] + margin, margin, gy - margin);
+                        else if (!curObject.n && !curObject.s)
+                            ctx.fillRect(blockPos[0] + gx - margin, blockPos[1] + margin, margin, gy - margin * 2);
+                        else if (curObject.n && !curObject.s)
+                            ctx.fillRect(blockPos[0] + gx - margin, blockPos[1], margin, gy - margin);
+                    if (!curObject.s)
+                        if (!curObject.e && curObject.w)
+                            ctx.fillRect(blockPos[0], blockPos[1] + gy - margin, gx - margin, margin);
+                        else if (!curObject.e && !curObject.w)
+                            ctx.fillRect(blockPos[0] + margin, blockPos[1] + gy - margin, gx - margin * 2, margin);
+                        else if (curObject.e && !curObject.w)
+                            ctx.fillRect(blockPos[0] + margin, blockPos[1] + gy - margin, gx - margin, margin);
+                    if (!curObject.w)
+                        if (!curObject.n && curObject.s)
+                            ctx.fillRect(blockPos[0], blockPos[1] + margin, margin, gy - margin);
+                        else if (!curObject.n && !curObject.s)
+                            ctx.fillRect(blockPos[0], blockPos[1] + margin, margin, gy - margin * 2);
+                        else if (curObject.n && !curObject.s)
+                            ctx.fillRect(blockPos[0], blockPos[1], margin, gy - margin);
+                }
+                ctx.fillStyle = 'rgb(0, 255, 0)';
+                if (!curObject.n && !curObject.w)
+                    ctx.fillRect(blockPos[0], blockPos[1], margin, margin);
+                if (!curObject.n && !curObject.e)
+                    ctx.fillRect(blockPos[0] + gx - margin, blockPos[1], margin, margin);
+                if (!curObject.s && !curObject.e)
+                    ctx.fillRect(blockPos[0] + gx - margin, blockPos[1] + gy - margin, margin, margin);
+                if (!curObject.s && !curObject.w)
+                    ctx.fillRect(blockPos[0], blockPos[1] + gy - margin, margin, margin);
+                ctx.fillStyle = 'rgb(0, 0, 255)';
+                if (!curObject.nw && curObject.n && curObject.w)
+                    ctx.fillRect(blockPos[0], blockPos[1], margin, margin);
+                if (!curObject.ne && curObject.n && curObject.e)
+                    ctx.fillRect(blockPos[0] + gx - margin, blockPos[1], margin, margin);
+                if (!curObject.se && curObject.s && curObject.e)
+                    ctx.fillRect(blockPos[0] + gx - margin, blockPos[1] + gy - margin, margin, margin);
+                if (!curObject.sw && curObject.s && curObject.w)
+                    ctx.fillRect(blockPos[0], blockPos[1] + gy - margin, margin, margin);
             }
         }
     } 
 }
+
+
 
 console.log(seccaIsLoaded);
 console.log(new Vector(0, 0, 0));
