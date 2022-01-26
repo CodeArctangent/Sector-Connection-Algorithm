@@ -21,6 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     margin = canvas.width / cellCount / 10;
+    generateStructure();
     drawStructure();
     drawGrid();
 });
@@ -66,12 +67,20 @@ function drawGrid() {
     }
 }
 
-let originStructure = [
-    [0, 0, 1, 0],
-    [0, 1, 1, 0],
-    [0, 1, 1, 1],
-    [1, 0, 1, 0]
-];
+let originStructure = [];
+
+function generateStructure() {
+    originStructure = new Array(cellCount);
+    for (var x = 0; x < cellCount; ++x) {
+        originStructure[x] = new Array(cellCount);
+    }
+    for (let y = 0; y < cellCount; ++y) {
+        for (var x = 0; x < cellCount; ++x) {
+            originStructure[y][x] = Math.random() > 0.5 ? 1 : 0;
+        }
+    }
+}
+
 let position = [3, 3];
 
 function valueChecker(val, y, x) {
