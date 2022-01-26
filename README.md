@@ -1,5 +1,7 @@
 # Sector Connection Algorithm
 An algorithm for connecting squares / borders in a Grid
+
+run the test program with `electron .` inside your terminal, electron must be installed globally or else it will not open.
  
 This algorithm takes positions on a grid and uses an algorithm to connect edges and create the correct regions for textures and borders to be applied to a tilegrid or 2D grid of blocks
 
